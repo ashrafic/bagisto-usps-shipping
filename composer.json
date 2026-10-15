@@ -1,0 +1,49 @@
+{
+    "name": "ashrafic/bagisto-usps-shipping",
+    "description": "USPS shipping for Bagisto 2.x — live commercial rates at checkout via the USPS Prices v3 OAuth API, per-product package dimensions, and nonstandard-classification fallback.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["bagisto", "laravel", "usps", "shipping", "checkout", "ecommerce"],
+    "authors": [
+        {
+            "name": "Ashrafic",
+            "homepage": "https://github.com/ashrafic"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "laravel/framework": "^11.0|^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.15",
+        "orchestra/testbench": "^9.0|^10.0",
+        "pestphp/pest": "^2.0|^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ashrafic\\UspsShipping\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ashrafic\\UspsShipping\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ashrafic\\UspsShipping\\Providers\\UspsShippingServiceProvider"
+            ]
+        },
+        "branch-alias": {
+            "dev-main": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
