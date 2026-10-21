@@ -1,6 +1,6 @@
 {
     "name": "ashrafic/bagisto-usps-shipping",
-    "description": "USPS shipping for Bagisto 2.x — live commercial rates at checkout via the USPS Prices v3 OAuth API, per-product package dimensions, and nonstandard-classification fallback.",
+    "description": "USPS shipping for Bagisto 2.x — live commercial rates at checkout via the USPS Prices v3 OAuth API, label printing and refunds via the Labels v3 API, per-product package dimensions, and nonstandard-classification fallback.",
     "type": "library",
     "license": "MIT",
     "keywords": ["bagisto", "laravel", "usps", "shipping", "checkout", "ecommerce"],
@@ -36,7 +36,7 @@
             ]
         },
         "branch-alias": {
-            "dev-main": "1.0.x-dev"
+            "dev-main": "1.1.x-dev"
         }
     },
     "config": {

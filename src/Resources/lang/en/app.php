@@ -2,6 +2,9 @@
 
 return [
     'admin' => [
+        'menu' => [
+            'usps-shipments' => 'USPS Shipments',
+        ],
         'system' => [
             'usps' => 'USPS Shipping',
             'usps-info' => 'Live USPS commercial rates at checkout via the USPS Prices v3 API. Register an app at developers.usps.com, enable the Prices and International Prices APIs, and paste the Consumer Key / Consumer Secret below.',
@@ -13,6 +16,12 @@ return [
             'client-id' => 'Client ID',
             'client-id-info' => 'The Consumer Key from your USPS developer app (developers.usps.com).',
             'client-secret' => 'Client Secret',
+            'payment-crid' => 'Customer Registration ID (CRID)',
+            'payment-crid-info' => 'Your USPS CRID from the Business Customer Gateway. Required together with the Mailer ID and EPS Account Number to create labels.',
+            'payment-mid' => 'Mailer ID (MID)',
+            'payment-mid-info' => 'Your USPS Mailer ID from the Business Customer Gateway. Required together with the CRID and EPS Account Number to create labels.',
+            'payment-account-number' => 'EPS Account Number',
+            'payment-account-number-info' => 'Enterprise Payment System account number charged for label postage. Required together with the CRID and Mailer ID to create labels.',
             'allowed-methods' => 'Allowed Methods',
             'allowed-methods-info' => 'The mail classes offered at checkout. Leave empty for USPS Ground Advantage and Priority Mail.',
             'service-ground-advantage' => 'USPS Ground Advantage',
@@ -34,6 +43,28 @@ return [
             'rate-cache-ttl' => 'Rate Cache (minutes)',
             'rate-cache-ttl-info' => 'How long identical cart quotes are cached before asking USPS again. Set 0 to disable caching.',
             'debug' => 'Debug Logging',
+        ],
+        'shipments' => [
+            'title' => 'USPS Shipments',
+            'tracking-number' => 'Tracking Number',
+            'service' => 'Service',
+            'status' => 'Status',
+            'cost' => 'Cost',
+            'estimated-delivery' => 'Estimated Delivery',
+            'actions' => 'Actions',
+            'download' => 'Download Label',
+            'void' => 'Void',
+            'empty' => 'No USPS shipments yet.',
+            'voided' => 'Label voided',
+            'void-failed' => 'Label could not be voided',
+        ],
+        'orders' => [
+            'create-label' => 'Create USPS Label',
+            'service' => 'Service',
+            'label-created' => 'USPS label created',
+            'label-failed' => 'USPS label could not be created',
+            'no-shipping-address' => 'This order has no shipping address.',
+            'international-unsupported' => 'USPS labels are currently supported for domestic addresses only.',
         ],
     ],
 ];

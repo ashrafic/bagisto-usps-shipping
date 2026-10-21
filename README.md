@@ -6,7 +6,8 @@
 
 Live USPS commercial rates at checkout for [Bagisto](https://github.com/bagisto/bagisto)
 2.x — built on the USPS Prices v3 OAuth API, per-product package dimensions, and
-per-mail-class quoting that survives partial API rejections.
+per-mail-class quoting that survives partial API rejections. Labels and refunds
+flow through the USPS Labels v3 API against your Enterprise Payment account.
 
 > **Verified against the live USPS production API.** Request shapes, classification
 > fallback, and weight units are confirmed against `api.usps.com` — the same endpoints
@@ -26,12 +27,14 @@ per-mail-class quoting that survives partial API rejections.
 - Never breaks checkout — on any USPS failure the carrier hides itself and logs the cause
 
 **Admin**
+- Create USPS labels from the order view — one button, pick the mail class, one label per packed box (70 lb cap), PDF stored on the private disk
+- Sales → USPS Shipments: every label with its tracking number, postage cost, estimated delivery, download, and void/refund
 - Configure → Sales → Shipping Methods → USPS Shipping: credentials, allowed methods, default box, fees, cache, debug
 - Clear configuration errors: missing dimensions and credential problems are logged with the exact setting to fix
 
 **Developer experience**
 - `php artisan usps:test` — smoke-test credentials and print sample rates
-- 26 Pest tests (testbench-based, no Bagisto install required), Pint-clean, CI on PHP 8.3 × Laravel 11/12
+- 42 Pest tests (testbench-based, no Bagisto install required), Pint-clean, CI on PHP 8.3 × Laravel 11/12
 
 ## Requirements
 
@@ -40,6 +43,7 @@ per-mail-class quoting that survives partial API rejections.
 | PHP | 8.3+ |
 | Bagisto | 2.2 or newer |
 | USPS credentials | Free — register an app at [developers.usps.com](https://developers.usps.com), enable the **Prices v3** and **International Prices v3** APIs, and copy the Consumer Key / Consumer Secret |
+| Label printing | Enable the **Labels v3** and **Payments v3** APIs on the same app, plus your **CRID**, **MID** and **EPS Account Number** from the [Business Customer Gateway](https://business.usps.com) — every label's postage is charged to that EPS account |
 
 ## Installation
 
@@ -63,9 +67,23 @@ Admin → **Configure → Sales → Shipping Methods → USPS Shipping**
 4. **Package Length / Width / Height** — your default shipping box, in inches.
    **Required**: USPS refuses to price a parcel without a box size, so without these
    the USPS options will not appear at checkout.
+5. **Customer Registration ID (CRID) / Mailer ID (MID) / EPS Account Number** —
+   only needed for label printing. Get them from the USPS Business Customer Gateway;
+   every created label's postage is charged to the EPS account.
 
 Also complete **Configure → Sales → Shipping Settings → Origin** (country and ZIP):
 USPS prices every quote from that origin.
+
+### Printing labels
+
+Open a paid order in the admin and press **Create USPS Label**. Pick the mail class —
+the list follows your Allowed Methods setting — and the label is created, stored as a
+PDF on the private disk, and the tracking number is written to the order's shipment.
+Orders above 70 lb are split into one label per box. **Sales → USPS Shipments** lists
+every label with download and void/refund actions.
+
+Labels are currently **domestic only**; international orders need customs forms and
+are rejected with a clear message.
 
 ### How pricing works
 

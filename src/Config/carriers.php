@@ -9,5 +9,6 @@ return [
         'description' => 'USPS live shipping rates',
         'active' => true,
         'class' => Usps::class,
+        'label_disk' => 'private',
     ],
 ];

@@ -51,6 +51,27 @@ return [
                 'channel_based' => true,
                 'locale_based' => false,
             ], [
+                'name' => 'payment_crid',
+                'title' => 'usps-shipping::app.admin.system.payment-crid',
+                'info' => 'usps-shipping::app.admin.system.payment-crid-info',
+                'type' => 'text',
+                'channel_based' => true,
+                'locale_based' => false,
+            ], [
+                'name' => 'payment_mid',
+                'title' => 'usps-shipping::app.admin.system.payment-mid',
+                'info' => 'usps-shipping::app.admin.system.payment-mid-info',
+                'type' => 'text',
+                'channel_based' => true,
+                'locale_based' => false,
+            ], [
+                'name' => 'payment_account_number',
+                'title' => 'usps-shipping::app.admin.system.payment-account-number',
+                'info' => 'usps-shipping::app.admin.system.payment-account-number-info',
+                'type' => 'text',
+                'channel_based' => true,
+                'locale_based' => false,
+            ], [
                 'name' => 'services',
                 'title' => 'usps-shipping::app.admin.system.allowed-methods',
                 'info' => 'usps-shipping::app.admin.system.allowed-methods-info',
