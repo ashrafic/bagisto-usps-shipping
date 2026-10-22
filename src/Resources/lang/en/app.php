@@ -20,6 +20,8 @@ return [
             'payment-crid-info' => 'Your USPS CRID from the Business Customer Gateway. Required together with the Mailer ID and EPS Account Number to create labels.',
             'payment-mid' => 'Mailer ID (MID)',
             'payment-mid-info' => 'Your USPS Mailer ID from the Business Customer Gateway. Required together with the CRID and EPS Account Number to create labels.',
+            'payment-manifest-mid' => 'Manifest Mailer ID (optional)',
+            'payment-manifest-mid-info' => 'Only needed when USPS assigns separate Master and Label/Manifest Mailer IDs. Leave empty unless USPS asks for it.',
             'payment-account-number' => 'EPS Account Number',
             'payment-account-number-info' => 'Enterprise Payment System account number charged for label postage. Required together with the CRID and Mailer ID to create labels.',
             'allowed-methods' => 'Allowed Methods',

@@ -95,6 +95,9 @@ class UspsClient
 
     /**
      * Resolve a payment authorization token; labels are charged to the EPS account it names.
+     *
+     * The MID field takes the Mailer ID USPS associated with label payment; accounts with
+     * separate Master and Label/Manifest Mailer IDs pass the second one as manifestMID.
      */
     public function paymentAuthorizationToken(): string
     {
@@ -112,6 +115,10 @@ class UspsClient
             'accountType' => 'EPS',
             'accountNumber' => (string) $accountNumber,
         ];
+
+        if ($manifestMid = $this->configResolver->get('payment_manifest_mid')) {
+            $role['manifestMID'] = (string) $manifestMid;
+        }
 
         $response = Http::withToken($this->oauth->token())
             ->acceptJson()

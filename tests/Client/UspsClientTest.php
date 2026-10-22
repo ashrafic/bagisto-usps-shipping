@@ -110,7 +110,32 @@ it('fetches a payment authorization token with payer and label owner roles', fun
             && collect($roles)->every(fn (array $role) => $role['CRID'] === '1234567890'
                 && $role['MID'] === '123456'
                 && $role['accountType'] === 'EPS'
-                && $role['accountNumber'] === '7654321');
+                && $role['accountNumber'] === '7654321'
+                && ! isset($role['manifestMID']));
+    });
+});
+
+it('includes the manifest mailer id when configured', function () {
+    config([
+        'carriers.usps.payment_crid' => '60645125',
+        'carriers.usps.payment_mid' => '904278993',
+        'carriers.usps.payment_manifest_mid' => '904278994',
+        'carriers.usps.payment_account_number' => '7654321',
+    ]);
+
+    Http::fake([
+        'apis.usps.com/payments/v3/payment-authorization' => Http::response(['paymentAuthorizationToken' => 'pay-tok'], 200),
+    ]);
+
+    (new UspsClient(new UspsOAuth))->paymentAuthorizationToken();
+
+    Http::assertSent(function ($request) {
+        if (! str_contains($request->url(), 'payments/v3/payment-authorization')) {
+            return true;
+        }
+
+        return collect($request->data()['roles'])->every(fn (array $role) => $role['MID'] === '904278993'
+            && $role['manifestMID'] === '904278994');
     });
 });
 

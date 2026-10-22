@@ -65,6 +65,13 @@ return [
                 'channel_based' => true,
                 'locale_based' => false,
             ], [
+                'name' => 'payment_manifest_mid',
+                'title' => 'usps-shipping::app.admin.system.payment-manifest-mid',
+                'info' => 'usps-shipping::app.admin.system.payment-manifest-mid-info',
+                'type' => 'text',
+                'channel_based' => true,
+                'locale_based' => false,
+            ], [
                 'name' => 'payment_account_number',
                 'title' => 'usps-shipping::app.admin.system.payment-account-number',
                 'info' => 'usps-shipping::app.admin.system.payment-account-number-info',

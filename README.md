@@ -69,7 +69,14 @@ Admin → **Configure → Sales → Shipping Methods → USPS Shipping**
    the USPS options will not appear at checkout.
 5. **Customer Registration ID (CRID) / Mailer ID (MID) / EPS Account Number** —
    only needed for label printing. Get them from the USPS Business Customer Gateway;
-   every created label's postage is charged to the EPS account.
+   every created label's postage is charged to the EPS account. If USPS assigns you
+   separate Master and Label/Manifest Mailer IDs, put the Label one in the optional
+   Manifest Mailer ID field.
+
+   **Labels also require the Labels and Payments API products on your developer
+   app** — they are not part of USPS's default app bundle. Request them through
+   [emailus.usps.com/s/web-tools-inquiry](https://emailus.usps.com/s/web-tools-inquiry)
+   (USPS APIs → Customer Access); the grant is manual.
 
 Also complete **Configure → Sales → Shipping Settings → Origin** (country and ZIP):
 USPS prices every quote from that origin.

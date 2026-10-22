@@ -3,6 +3,12 @@
 All notable changes are documented in this file, following
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) conventions.
 
+## [1.1.1] - 2026-10-22
+
+### Added
+
+- Optional Manifest Mailer ID (`payment_manifest_mid`) sent as `manifestMID` in the payment authorization, for accounts where USPS assigns separate Master and Label/Manifest Mailer IDs
+
 ## [1.1.0] - 2026-10-21
 
 ### Added
@@ -32,5 +38,6 @@ All notable changes are documented in this file, following
 - Admin configuration under Configure → Sales → Shipping Methods → USPS Shipping with allowed-methods selection spanning domestic and international mail classes
 - 26 testbench-based Pest tests and CI (PHP 8.3 × Laravel 11/12)
 
+[1.1.1]: https://github.com/ashrafic/bagisto-usps-shipping/releases/tag/v1.1.1
 [1.1.0]: https://github.com/ashrafic/bagisto-usps-shipping/releases/tag/v1.1.0
 [1.0.0]: https://github.com/ashrafic/bagisto-usps-shipping/releases/tag/v1.0.0
