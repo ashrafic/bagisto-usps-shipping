@@ -25,6 +25,9 @@ jobs:
           coverage: none
       - name: Pin Laravel version
         run: composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-progress --no-update
+      - name: Allow Laravel 11 despite open framework advisories
+        if: matrix.laravel == '^11.0'
+        run: composer config --global policy.advisories.block false
       - run: composer update --prefer-dist --no-interaction --no-progress
       - run: vendor/bin/pint --test
       - run: vendor/bin/pest
