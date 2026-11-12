@@ -68,15 +68,26 @@ class Usps extends AbstractShipping
         return $cart->items
             ->filter(fn ($item) => $item->getTypeInstance()->isStockable())
             ->map(fn ($item) => [
-                'weight' => (float) ($item->product->weight ?? 0),
+                'weight' => (float) ($this->shippableProduct($item)->weight ?? 0),
                 'quantity' => (int) $item->quantity,
                 'store_weight_unit' => core()->getConfigData('general.general.locale_options.weight_unit') ?: 'LBS',
-                'length' => $this->optionalFloat($item->product->length ?? null),
-                'width' => $this->optionalFloat($item->product->width ?? null),
-                'height' => $this->optionalFloat($item->product->height ?? null),
+                'length' => $this->optionalFloat($this->shippableProduct($item)->length ?? null),
+                'width' => $this->optionalFloat($this->shippableProduct($item)->width ?? null),
+                'height' => $this->optionalFloat($this->shippableProduct($item)->height ?? null),
             ])
             ->values()
             ->all();
+    }
+
+    /**
+     * Parcel properties come from the chosen variant for configurables; an unweighted
+     * variant falls back to the parent product's parcel profile.
+     */
+    protected function shippableProduct($item)
+    {
+        $variant = $item->child?->product;
+
+        return $variant && (float) ($variant->weight ?? 0) > 0 ? $variant : $item->product;
     }
 
     /**

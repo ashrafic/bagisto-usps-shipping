@@ -44,7 +44,7 @@ function uspsFakeSuccessfulRates(): void
     ]);
 }
 
-function uspsCartItem(float $weight, int $quantity = 1, ?float $length = null): object
+function uspsCartItem(float $weight, int $quantity = 1, ?float $length = null, ?object $child = null): object
 {
     $product = new stdClass;
     $product->weight = (string) $weight;
@@ -52,11 +52,12 @@ function uspsCartItem(float $weight, int $quantity = 1, ?float $length = null): 
     $product->width = $length !== null ? (string) ($length / 2) : '';
     $product->height = $length !== null ? (string) ($length / 4) : '';
 
-    $item = new class($product, $quantity)
+    $item = new class($product, $quantity, $child)
     {
         public function __construct(
             public stdClass $product,
             public int $quantity,
+            public ?object $child = null,
         ) {}
 
         public function getTypeInstance(): object
@@ -125,6 +126,53 @@ it('sends product dimensions through to the payload', function () {
         }
 
         return $request['length'] === 8.5 && $request['weight'] === 2.0;
+    });
+});
+
+it('quotes the chosen variant when the item is a configurable', function () {
+    uspsFakeSuccessfulRates();
+
+    $variant = new stdClass;
+    $variant->weight = '0.9';
+    $variant->length = '12';
+    $variant->width = '9';
+    $variant->height = '4';
+
+    $child = new stdClass;
+    $child->product = $variant;
+
+    uspsCartWith([uspsCartItem(5.0, 1, null, $child)]);
+
+    (new Usps)->calculate();
+
+    Http::assertSent(function ($request) {
+        if (! str_contains($request->url(), 'base-rates/search')) {
+            return false;
+        }
+
+        return $request['weight'] === 0.9 && $request['length'] === 12.0;
+    });
+});
+
+it('falls back to the parent product when the variant has no weight', function () {
+    uspsFakeSuccessfulRates();
+
+    $variant = new stdClass;
+    $variant->weight = '0';
+
+    $child = new stdClass;
+    $child->product = $variant;
+
+    uspsCartWith([uspsCartItem(5.0, 1, null, $child)]);
+
+    (new Usps)->calculate();
+
+    Http::assertSent(function ($request) {
+        if (! str_contains($request->url(), 'base-rates/search')) {
+            return false;
+        }
+
+        return $request['weight'] === 5.0;
     });
 });
 
